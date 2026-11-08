@@ -1,104 +1,443 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Crush mo ba ako boi? 💗</title>
-
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bella Vista Oasis Spa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-    <div class="container" id="main">
-
-        <!-- QUESTION SECTION -->
-        <div id="question">
-
-            <img
-                class="gif"
-                src="https://media.tenor.com/8K7uZr5q0LwAAAAi/bubu-dudu-love.gif"
-                alt="Cute love bears"
-            >
-
-            <h1>Crush mo ba ako boi? 💗</h1>
-
-            <p>Be honest boi ha... wag kang mahiya HAHAHA</p>
-
-            <div class="buttons">
-
-                <button id="yesBtn">
-                    YES 💖
-                </button>
-
-                <button id="noBtn">
-                    NO 😭
-                </button>
-
-            </div>
-
-            <div class="footer">
-               Wala virus pramis
-            </div>
-
-        </div>
 
 
-        <!-- SUCCESS SECTION -->
-        <div id="success">
+<!-- ================================================================ -->
+<!--                        CUSTOMER WEBSITE                          -->
+<!-- ================================================================ -->
+<div id="website">
 
-            <h1>Sabi kona e HAHAHAHA</h1>
+  <!-- ---------- TOP MENU ---------- -->
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <div class="brand">
+        <!-- LOGO BOX: replace <span class="logo-ph">LOGO</span> with <img src="logo.png" alt="Logo">
+             Clicking it always goes back to the Home page. -->
+        <a href="#home" class="logo-slot" title="Back to home"><span class="logo-ph">LOGO</span></a>
+        <div class="brand-name">BELLA VISTA OASIS<small>WELLNESS SPA</small></div>
+      </div>
 
-            <p>
-                Alam ko naman eh! HAHAHAHA! 
-                <br><br>
-                yan tayo boi eh hule HAHAHAHA!
-                <br>
-                Wala kang no choice boi
-            </p>
+      <nav class="menu" id="menu">
+        <a href="#home" data-page="home">Home</a>
+        <a href="#about" data-page="about">About</a>
+        <a href="#services" data-page="services">Services</a>
+        <a href="#gallery" data-page="gallery">Gallery</a>
+        <a href="#visit" data-page="visit">Visit</a>
+        <a href="#book" data-page="book" class="btn solid book-link">Book Now</a>
+      </nav>
 
-            <!-- FLOWER ANIMATION -->
-            <div class="flower-scene">
-
-                <div class="flower">
-
-                    <div class="petals">
-
-                        <div class="petal"></div>
-                        <div class="petal"></div>
-                        <div class="petal"></div>
-                        <div class="petal"></div>
-                        <div class="petal"></div>
-                        <div class="petal"></div>
-
-                    </div>
-
-                    <div class="center"></div>
-
-                    <div class="stem"></div>
-
-                    <div class="leaf leaf-left"></div>
-                    <div class="leaf leaf-right"></div>
-
-                </div>
-
-            </div>
-
-            <h2 class="flower-message">
-                A flower for you! 🌷
-            </h2>
-
-            <div class="success-hearts">
-                💗 💕 💖
-            </div>
-
-        </div>
-
+      <button class="burger" id="menuBtn">☰</button>
     </div>
+  </header>
 
-    <script src="script.js"></script>
+  <!-- ---------- THE PAGES (only one has the class "active") ---------- -->
+  <main class="pages">
 
+    <!-- PAGE 1: HOME -->
+    <section class="page active" id="page-home">
+      <div class="wrap hero">
+        <div>
+          <div class="eyebrow">Holistic wellness · Since 2021</div>
+          <h1>Rest, <em>re-engineered</em> for body &amp; mind.</h1>
+          <p>A peaceful sanctuary of premium massage, therapeutic treatments and private lounges — designed to melt away stress and restore you completely.</p>
+          <div class="cta">
+            <a href="#book" class="btn solid">Book an Appointment</a>
+            <a href="#services" class="btn brown">Explore Services</a>
+          </div>
+          <div class="chips">
+            <span class="chip">Open daily <b>1:00 PM – 9:00 PM</b></span>
+            <span class="chip"><b>7</b> private rooms</span>
+            <span class="chip">From <b>₱800</b> / hour</span>
+          </div>
+        </div>
+        <div class="holo">
+          <div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div>
+          <div class="core">
+            <strong>1PM–9PM</strong>
+            <span>Open · Mon – Sun</span>
+            <small>◆ RELAX ◆ RESTORE ◆</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE 2: ABOUT US + COMPANY HISTORY -->
+    <section class="page" id="page-about">
+      <div class="wrap">
+        <div class="eyebrow">About us</div>
+        <h2 class="title">A sanctuary <span>surrounded by nature</span></h2>
+        <div class="about-grid">
+          <div class="glass card">
+            <h3>OUR STORY</h3>
+            <p>Bella Vista Oasis Spa is a peaceful sanctuary dedicated to holistic wellness, physical rejuvenation, and deep relaxation. Surrounded by nature and soothing aesthetics, it offers premium massage therapies, therapeutic treatments, and private lounge experiences designed to melt away stress and restore body and mind.</p>
+            <div class="stats">
+              <div class="stat"><b>2021</b><span>Established</span></div>
+              <div class="stat"><b>7</b><span>Private rooms</span></div>
+              <div class="stat"><b>365</b><span>Days open</span></div>
+            </div>
+          </div>
+          <div class="glass card">
+            <h3>COMPANY HISTORY</h3>
+            <div class="timeline">
+              <div class="tl"><b>2021</b><p>Founded as a vital extension of the Bella Vista estate, created to give guests an unmatched healing touch.</p></div>
+              <div class="tl"><b>GROWTH</b><p>High demand for our therapeutic sessions and calming environment turned the spa into a destination of its own.</p></div>
+              <div class="tl"><b>TODAY</b><p>A premier standalone wellness center trusted by local residents and tourists seeking professional relaxation therapies.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE 3: SERVICES (the cards are created by script.js from the SERVICE table) -->
+    <section class="page" id="page-services">
+      <div class="wrap">
+        <div class="eyebrow">Service inventory</div>
+        <h2 class="title">Choose your <span>experience</span></h2>
+        <p class="lead">Every session includes a mandatory 30-minute cleaning &amp; sanitization of your room before the next guest.</p>
+        <div class="svc-grid" id="serviceCards"></div>
+      </div>
+    </section>
+
+    <!-- PAGE 4: GALLERY -->
+    <section class="page" id="page-gallery">
+      <div class="wrap">
+        <div class="eyebrow">Gallery</div>
+        <h2 class="title">Rooms &amp; <span>treatments</span></h2>
+        <!-- Colored boxes for now. For a real photo add to a tile:  style="background-image:url(photo.jpg); background-size:cover;" -->
+        <div class="gallery">
+          <div class="tile g1"><span>FAMILY SPA LOUNGE<small>FL-1 · FL-2</small></span></div>
+          <div class="tile g2"><span>COUPLES SUITE<small>CS-1 · CS-2</small></span></div>
+          <div class="tile g3"><span>SINGLE ROOM<small>SR-1 · SR-2 · SR-3</small></span></div>
+          <div class="tile g4"><span>SWEDISH &amp; DEEP-TISSUE MASSAGE<small>THERAPEUTIC TREATMENT</small></span></div>
+          <div class="tile g5"><span>HERBAL TEA RITUAL<small>COUPLES SUITE</small></span></div>
+          <div class="tile g6"><span>QUIET GARDEN<small>BELLA VISTA ESTATE</small></span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE 5: VISIT -->
+    <section class="page" id="page-visit">
+      <div class="wrap">
+        <div class="eyebrow">Plan your visit</div>
+        <h2 class="title">Hours &amp; <span>house rules</span></h2>
+        <div class="visit-grid">
+          <div class="glass card">
+            <h3>OPEN DAILY</h3>
+            <div class="hours-big">1:00 PM – 9:00 PM</div>
+            <p class="small-top">Monday to Sunday. Sessions run in 1-hour or 1.5-hour blocks, with a 30-minute cleaning gap after each one.</p>
+          </div>
+          <div class="glass card">
+            <h3>ARRIVAL &amp; CANCELLATION</h3>
+            <p>Arrive 15 minutes early — late arrivals get a shortened session. Cancel or reschedule 6+ hours ahead; late cancellations forfeit any downpayment.</p>
+          </div>
+          <div class="glass card">
+            <h3>QUIET ENVIRONMENT</h3>
+            <p>Absolute silence and low volume are kept within the premises to preserve the peaceful ambiance.</p>
+          </div>
+        </div>
+        <div class="center-actions top-gap"><a href="#book" class="btn solid">Book Now</a></div>
+      </div>
+    </section>
+
+    <!-- PAGE 6: BOOK NOW (a 6-step wizard, one step on screen at a time) -->
+    <section class="page" id="page-book">
+      <div class="wrap">
+        <div class="eyebrow">Online appointment booking</div>
+        <h2 class="title">Reserve your <span>session</span></h2>
+
+        <div class="book-grid">
+
+          <!-- LEFT: the wizard -->
+          <div class="glass wizard">
+            <ol class="progress" id="progress"></ol>
+
+            <div class="step-area">
+
+              <!-- Step 1 -->
+              <div class="step active" id="step-1">
+                <h3>1 · Choose your service</h3>
+                <div class="opts" id="serviceChoices"></div>
+              </div>
+
+              <!-- Step 2 -->
+              <div class="step" id="step-2">
+                <h3>2 · Pick date, guests &amp; time</h3>
+                <div class="row">
+                  <div class="field">
+                    <label for="date">Appointment date</label>
+                    <input type="date" id="date">
+                  </div>
+                  <div class="field">
+                    <label>Number of guests</label>
+                    <div class="stepper">
+                      <button type="button" id="guestMinus">−</button>
+                      <output id="guestCount">1</output>
+                      <button type="button" id="guestPlus">+</button>
+                      <span class="hint" id="guestHint"></span>
+                    </div>
+                  </div>
+                </div>
+                <label class="mini-label">Time slot (1:00 PM – 9:00 PM)</label>
+                <div class="slots" id="timeSlots"></div>
+                <div class="hint" id="slotMessage"></div>
+              </div>
+
+              <!-- Step 3 -->
+              <div class="step" id="step-3">
+                <h3>3 · Select an available room</h3>
+                <p class="hint" id="roomIntro"></p>
+                <div class="room-cards" id="roomCards"></div>
+              </div>
+
+              <!-- Step 4 -->
+              <div class="step" id="step-4">
+                <h3>4 · Health declaration</h3>
+                <p class="hint">Please tell us about any medical condition, injury or pregnancy.</p>
+                <div class="checks" id="healthList">
+                  <label class="check"><input type="checkbox" value="Pregnancy"> Pregnancy</label>
+                  <label class="check"><input type="checkbox" value="Recent injury / surgery"> Recent injury / surgery</label>
+                  <label class="check"><input type="checkbox" value="Heart / blood pressure condition"> Heart / blood pressure</label>
+                  <label class="check"><input type="checkbox" value="Skin condition / allergies"> Skin condition / allergies</label>
+                  <label class="check"><input type="checkbox" value="Other medical condition"> Other medical condition</label>
+                  <label class="check"><input type="checkbox" value="None to declare" id="healthNone"> None to declare</label>
+                </div>
+                <div class="field notes-field">
+                  <label for="healthNotes">Notes for your therapist (optional)</label>
+                  <textarea id="healthNotes" placeholder="Areas to avoid, pressure preference, allergies…"></textarea>
+                </div>
+              </div>
+
+              <!-- Step 5 -->
+              <div class="step" id="step-5">
+                <h3>5 · Your details &amp; guest names</h3>
+                <div class="cols3">
+                  <div class="field"><label for="name">Full name</label><input type="text" id="name" placeholder="Juan Dela Cruz"></div>
+                  <div class="field"><label for="phone">Mobile number</label><input type="tel" id="phone" placeholder="09XX XXX XXXX"></div>
+                  <div class="field"><label for="email">Email</label><input type="email" id="email" placeholder="you@email.com"></div>
+                </div>
+                <label class="mini-label">Guest names (one box per guest)</label>
+                <div class="guest-grid" id="guestNames"></div>
+              </div>
+
+              <!-- Step 6 -->
+              <div class="step" id="step-6">
+                <h3>6 · Review your appointment</h3>
+                <div id="reviewList"></div>
+                <p class="hint">Next, you will be asked to accept the Terms &amp; Conditions.</p>
+              </div>
+
+            </div>
+
+            <div class="err" id="stepError"></div>
+            <div class="step-buttons">
+              <button class="btn brown" id="stepBack">← Back</button>
+              <button class="btn solid" id="stepNext">Next →</button>
+            </div>
+          </div>
+
+          <!-- RIGHT: live summary -->
+          <aside class="glass summary">
+            <h3>◆ BOOKING SUMMARY</h3>
+            <div id="summaryList"></div>
+            <div class="total"><span>TOTAL</span><b id="totalPrice">₱0</b></div>
+            <p class="hint">Cancel or reschedule at least 6 hours before your appointment.</p>
+          </aside>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Small bar at the bottom (has the link to the admin page) -->
+  <footer class="site-foot">
+    <span>© 2026 Bella Vista Oasis Spa</span>
+    <a href="#admin" class="staff-link">Staff / Admin Login</a>
+  </footer>
+
+  <!-- POP-UP: Terms and Conditions -->
+  <div class="modal" id="termsModal">
+    <div class="box">
+      <h2>Terms &amp; Conditions</h2>
+      <p class="hint">Please read and accept before final checkout.</p>
+      <ul class="terms">
+        <li><b>1 · ARRIVAL &amp; GRACE PERIOD</b><span>Arrive at least 15 minutes before your scheduled time. Late arrivals will have a shortened session to keep later bookings on schedule.</span></li>
+        <li><b>2 · CANCELLATION POLICY</b><span>Cancel or reschedule at least 6 hours before the appointment. Late cancellations forfeit any downpayment made.</span></li>
+        <li><b>3 · HEALTH DECLARATION</b><span>You have disclosed any medical conditions, injuries or pregnancy in this booking.</span></li>
+        <li><b>4 · QUIET ENVIRONMENT</b><span>Absolute silence and low volume must be maintained within the spa premises.</span></li>
+      </ul>
+      <label class="check"><input type="checkbox" id="agree"> I have read and agree to the Terms &amp; Conditions.</label>
+      <div class="actions">
+        <button class="btn solid" id="confirmBtn" disabled>Confirm Booking</button>
+        <button class="btn brown" id="termsClose">Go back</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- POP-UP: Booking confirmed -->
+  <div class="modal" id="doneModal">
+    <div class="box center">
+      <div class="ok-mark">✓</div>
+      <h2>Appointment Confirmed</h2>
+      <div class="ref" id="doneRef"></div>
+      <div id="doneInfo" class="left-text"></div>
+      <div class="actions center-actions">
+        <a href="#home" class="btn solid" id="doneHome">Back to Home</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- ============ END OF CUSTOMER WEBSITE ============ -->
+
+
+
+<!-- ================================================================ -->
+<!--                  ADMIN PAGE (staff only)                         -->
+<!-- ================================================================ -->
+<div id="adminPage" style="display:none">
+
+  <!-- LOGIN SCREEN -->
+  <div class="login-page" id="loginPage">
+    <form class="glass login-box" id="loginForm">
+      <a href="#home" class="logo-slot" title="Back to home"><span class="logo-ph">LOGO</span></a>
+      <h1>STAFF ACCESS</h1>
+      <div class="sub">Manager &amp; Front Desk</div>
+
+      <div class="field"><label for="username">Username or email</label><input type="text" id="username" required></div>
+      <div class="field"><label for="password">Password</label><input type="password" id="password" required></div>
+
+      <button class="btn solid" type="submit">Sign In</button>
+      <div class="err" id="loginError"></div>
+
+      <div class="demo">
+        Practice accounts (from the USER table):<br>
+        <b>admin</b> / <b>bella2026</b> &nbsp;(manager)<br>
+        <b>frontdesk</b> / <b>front2026</b> &nbsp;(front desk)
+      </div>
+      <a class="back" href="#home">← Back to website</a>
+    </form>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="dash" id="dashboard">
+
+    <aside class="side">
+      <div class="brand">
+        <a href="#home" class="logo-slot" title="Back to home"><span class="logo-ph">LOGO</span></a>
+        <div class="brand-name">BELLA VISTA<small>ADMIN</small></div>
+      </div>
+
+      <button class="tab on" data-view="calendar">▦ &nbsp;Schedule</button>
+      <button class="tab" data-view="therapists">☰ &nbsp;Therapists</button>
+      <button class="tab" data-view="reports">◔ &nbsp;Daily Reports</button>
+      <!-- data-role="manager" = only managers can see this -->
+      <button class="tab" data-view="database" data-role="manager">▤ &nbsp;Database</button>
+
+      <div class="grow"></div>
+      <div class="mini" id="whoAmI"></div>
+      <div class="mini" id="clock"></div>
+      <button class="tab" id="logoutBtn">⏻ &nbsp;Log out</button>
+    </aside>
+
+    <main class="main">
+      <div class="top">
+        <h2 id="pageTitle">Appointment Schedule</h2>
+        <div class="tools" id="dateTools">
+          <button class="sbtn" id="prevDay">◀</button>
+          <input type="date" id="pickDate">
+          <button class="sbtn" id="nextDay">▶</button>
+          <button class="sbtn" id="todayBtn">Today</button>
+          <button class="sbtn" id="sampleBtn">+ Sample data</button>
+          <button class="sbtn danger" id="clearBtn" data-role="manager">Reset database</button>
+        </div>
+      </div>
+
+      <!-- A: Schedule -->
+      <section class="view on" id="view-calendar">
+        <div class="glass cal">
+          <div class="cal-inner" id="calendarBox"></div>
+          <div class="legend">
+            <span><i class="l-booked"></i>Booked</span>
+            <span><i class="l-active"></i>Active session</span>
+            <span><i class="l-clean"></i>Cleaning (30 min)</span>
+            <span><i class="l-done"></i>Completed</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- B: Therapists -->
+      <section class="view" id="view-therapists">
+        <div class="glass panel scroll">
+          <div class="panel-t">◆ ASSIGN THERAPISTS TO ROOMS (APPOINTMENT_THERAPIST)</div>
+          <div id="assignTable"></div>
+        </div>
+        <div class="glass panel space-top">
+          <div class="panel-t">◆ THERAPIST SCHEDULES</div>
+          <div id="therapistList"></div>
+        </div>
+      </section>
+
+      <!-- C: Reports -->
+      <section class="view" id="view-reports">
+        <div class="kpis" id="summaryBoxes"></div>
+        <div class="grid2 no-top">
+          <div class="glass panel"><div class="panel-t">◆ REVENUE BY SERVICE</div><div id="revenueBars"></div></div>
+          <div class="glass panel"><div class="panel-t">◆ ROOM USAGE</div><div id="usageBars"></div></div>
+        </div>
+        <div class="glass panel space-top"><div class="panel-t">◆ ACTIVE THERAPIST SCHEDULES</div><div id="reportTherapists"></div></div>
+        <div class="glass panel scroll space-top">
+          <div class="panel-t">◆ APPOINTMENTS OF THE DAY</div>
+          <div id="reportTable"></div>
+          <div class="space-top"><button class="sbtn" id="printBtn">Print report</button></div>
+        </div>
+      </section>
+
+      <!-- D: Database viewer (managers only) -->
+      <section class="view" id="view-database">
+        <div class="glass panel">
+          <div class="panel-t">◆ HOW THE TABLES ARE CONNECTED (ERD)</div>
+          <ul class="erd-list" id="erdList"></ul>
+        </div>
+        <div class="glass panel space-top">
+          <div class="panel-t">◆ TABLE VIEWER</div>
+          <div class="db-controls">
+            <select id="dbTable"></select>
+            <span class="hint" id="dbInfo"></span>
+          </div>
+          <div class="db-table" id="dbRows"></div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- POP-UP: appointment details -->
+  <div class="modal" id="detailModal">
+    <div class="box wide">
+      <h2 id="detailTitle"></h2>
+      <div id="detailBody"></div>
+      <div class="actions">
+        <button class="btn sbtn danger" id="cancelBookingBtn">Cancel appointment</button>
+        <button class="btn brown" id="closeDetailBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+</div>
+<!-- ============ END OF ADMIN PAGE ============ -->
+
+<script src="script.js"></script>
 </body>
 </html>
