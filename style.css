@@ -1,0 +1,398 @@
+
+/* GENERAL SETTINGS */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+
+    background: linear-gradient(
+        135deg,
+        #ffb6c9,
+        #ff69a6,
+        #ffb6c9
+    );
+}
+
+
+/* FLOATING HEARTS */
+
+.heart {
+    position: fixed;
+    bottom: -50px;
+    color: white;
+    font-size: 25px;
+    animation: float 6s linear infinite;
+    opacity: 0.7;
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes float {
+
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+
+}
+
+
+/* MAIN CONTAINER */
+
+.container {
+    background: white;
+    width: 90%;
+    max-width: 420px;
+    padding: 40px 25px;
+    border-radius: 25px;
+    text-align: center;
+
+    box-shadow: 0 10px 35px rgba(255, 0, 100, 0.25);
+
+    position: relative;
+    z-index: 2;
+}
+
+.gif {
+    width: 180px;
+    height: 180px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+h1 {
+    color: #ff3e83;
+    font-size: 27px;
+    margin-bottom: 12px;
+}
+
+p {
+    color: #888;
+    font-size: 15px;
+    margin-bottom: 30px;
+}
+
+
+/* BUTTONS */
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    min-height: 55px;
+}
+
+button {
+    border: none;
+    border-radius: 30px;
+    padding: 13px 30px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#yesBtn {
+    background: #ff4081;
+    color: white;
+}
+
+#yesBtn:hover {
+    transform: scale(1.1);
+    background: #e91e63;
+}
+
+#noBtn {
+    background: #eeeeee;
+    color: #555;
+    position: relative;
+    z-index: 5;
+}
+
+.footer {
+    margin-top: 25px;
+    font-size: 12px;
+    color: #ff80ab;
+}
+
+
+/* SUCCESS SECTION */
+
+#success {
+    display: none;
+}
+
+#success h1 {
+    font-size: 30px;
+}
+
+#success p {
+    font-size: 16px;
+    color: #ff4081;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+
+/* FLOWER SCENE */
+
+.flower-scene {
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    position: relative;
+    overflow: hidden;
+    margin-top: 15px;
+}
+
+.flower {
+    position: relative;
+    width: 180px;
+    height: 270px;
+}
+
+
+/* FLOWER STEM */
+
+.stem {
+    position: absolute;
+    width: 7px;
+    height: 0;
+    background: #3caa56;
+    bottom: 0;
+    left: 86px;
+    border-radius: 10px;
+
+    animation: growStem 2s ease forwards;
+    animation-delay: 0.3s;
+}
+
+@keyframes growStem {
+
+    to {
+        height: 145px;
+    }
+
+}
+
+
+/* FLOWER LEAVES */
+
+.leaf {
+    position: absolute;
+    width: 45px;
+    height: 22px;
+    background: #54c96b;
+    opacity: 0;
+    bottom: 65px;
+    border-radius: 100% 0 100% 0;
+
+    animation: showLeaf 1s ease forwards;
+    animation-delay: 1.8s;
+}
+
+.leaf-left {
+    left: 40px;
+    transform: rotate(15deg);
+}
+
+.leaf-right {
+    right: 35px;
+    transform: rotate(75deg) scaleX(-1);
+}
+
+@keyframes showLeaf {
+
+    to {
+        opacity: 1;
+    }
+
+}
+
+
+/* FLOWER PETALS */
+
+.petals {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    left: 15px;
+    top: 5px;
+
+    transform: scale(0);
+
+    animation: bloom 1.8s cubic-bezier(.2,.8,.3,1.3) forwards;
+    animation-delay: 2s;
+
+    z-index: 2;
+}
+
+.petal {
+    position: absolute;
+    width: 55px;
+    height: 75px;
+
+    background: linear-gradient(
+        135deg,
+        #ff9fbd,
+        #ff3e83
+    );
+
+    border-radius: 50% 50% 45% 45%;
+
+    left: 47px;
+    top: 0;
+
+    transform-origin: 50% 75px;
+
+    box-shadow: 0 3px 10px rgba(255, 50, 120, 0.2);
+}
+
+.petal:nth-child(1) {
+    transform: rotate(0deg);
+}
+
+.petal:nth-child(2) {
+    transform: rotate(60deg);
+}
+
+.petal:nth-child(3) {
+    transform: rotate(120deg);
+}
+
+.petal:nth-child(4) {
+    transform: rotate(180deg);
+}
+
+.petal:nth-child(5) {
+    transform: rotate(240deg);
+}
+
+.petal:nth-child(6) {
+    transform: rotate(300deg);
+}
+
+@keyframes bloom {
+
+    0% {
+        transform: scale(0) rotate(-30deg);
+    }
+
+    70% {
+        transform: scale(1.15) rotate(10deg);
+    }
+
+    100% {
+        transform: scale(1) rotate(0deg);
+    }
+
+}
+
+
+/* FLOWER CENTER */
+
+.center {
+    position: absolute;
+    width: 35px;
+    height: 35px;
+
+    background: radial-gradient(
+        circle,
+        #fff176,
+        #ffb300
+    );
+
+    border-radius: 50%;
+
+    left: 72px;
+    top: 55px;
+
+    transform: scale(0);
+
+    z-index: 3;
+
+    animation: centerBloom 0.5s ease forwards;
+    animation-delay: 3.3s;
+}
+
+@keyframes centerBloom {
+
+    to {
+        transform: scale(1);
+    }
+
+}
+
+
+/* FLOWER MESSAGE */
+
+.flower-message {
+    color: #ff4081;
+    font-size: 22px;
+
+    opacity: 0;
+
+    animation: messageAppear 1s ease forwards;
+    animation-delay: 3.5s;
+}
+
+@keyframes messageAppear {
+
+    to {
+        opacity: 1;
+    }
+
+}
+
+
+/* SUCCESS HEARTS */
+
+.success-hearts {
+    font-size: 25px;
+    margin-top: 15px;
+
+    opacity: 0;
+
+    animation: messageAppear 1s ease forwards;
+    animation-delay: 4s;
+}
+
+
+/* MOBILE RESPONSIVE */
+
+@media (max-width: 480px) {
+
+    .container {
+        padding: 30px 18px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    .flower-scene {
+        height: 280px;
+    }
+
+}
