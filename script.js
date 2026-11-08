@@ -1,5 +1,3 @@
-
-
 /* =====================================================================
    1. SETTINGS
    ===================================================================== */
@@ -11,10 +9,10 @@ var ARRIVE_EARLY = 15;        // customers arrive 15 minutes early
 var SLOT_STEP = 30;           // a session can start every 30 minutes
 
 var PAGES = ['home', 'about', 'services', 'gallery', 'visit', 'book'];   // the customer pages, in order
-var STEP_NAMES = ['Service', 'Date & Time', 'Room', 'Health', 'Details', 'Review'];
 
 var DB_KEY = 'spa_database_v2';             // where the database is saved in the browser
 var LOGIN_KEY = 'spa_logged_in_user_id';    // who is logged in (admin page)
+var LANG_KEY = 'spa_language';              // 'en' or 'fil' (remembered in the browser)
 
 // Extra text for each service (the ERD does not store these, so we keep them here)
 var SERVICE_FEATURES = {
@@ -25,13 +23,175 @@ var SERVICE_FEATURES = {
 
 
 /* =====================================================================
-   2. DATABASE
-   Your ERD has 11 tables. We create the same 11 tables here.
-   Each table is a list (array) of rows. A row is an object like:
-        { customer_id: 1, full_name: 'Ana', email: 'ana@mail.com', ... }
-   "PK" (primary key) = the unique id of a row.
-   "FK" (foreign key)  = a field that holds the id of a row in another table.
-        Example: appointment.customer_id points to customer.customer_id
+   2. LANGUAGE (English / Filipino)
+   ---------------------------------------------------------------------
+   - Text written directly in index.html has data-i18n="key".
+     The English stays in the HTML; the Filipino version is in FIL below.
+   - Text made by this script uses L('English', 'Filipino').
+   ===================================================================== */
+
+var lang = localStorage.getItem(LANG_KEY) === 'fil' ? 'fil' : 'en';
+
+// Pick the English or Filipino text depending on the chosen language
+function L(english, filipino) {
+  return (lang === 'fil') ? filipino : english;
+}
+
+// Filipino texts for everything inside index.html (key -> text)
+var FIL = {
+  nav_home: 'Tahanan', nav_about: 'Tungkol', nav_services: 'Serbisyo', nav_gallery: 'Galeriya', nav_visit: 'Bisitahin', nav_book: 'Mag-book Na',
+
+  h_eyebrow: 'Holistic na wellness · Mula 2021',
+  h_title: 'Pahinga, <em>muling idinisenyo</em> para sa katawan at isip.',
+  h_p: 'Isang payapang santuwaryo ng premium na masahe, therapeutic na paggamot at pribadong lounge — idinisenyo upang tunawin ang stress at ganap kang ibalik sa sigla.',
+  h_cta1: 'Mag-book ng Appointment', h_cta2: 'Tingnan ang Serbisyo',
+  h_chip1: 'Bukas araw-araw <b>1:00 PM – 9:00 PM</b>', h_chip2: '<b>7</b> pribadong silid', h_chip3: 'Mula <b>₱800</b> / oras',
+  h_open: 'Bukas · Lun – Linggo', h_tag: '◆ MAGPAHINGA ◆ MAGBALIK-LAKAS ◆',
+
+  a_eyebrow: 'Tungkol sa amin',
+  a_title: 'Isang santuwaryo <span>na napapalibutan ng kalikasan</span>',
+  a_story: 'AMING KWENTO',
+  a_story_p: 'Ang Bella Vista Oasis Spa ay isang payapang santuwaryo na nakatuon sa holistic na wellness, pisikal na pagpapanibago, at malalim na pagpapahinga. Napapalibutan ng kalikasan at nakagagaan na kapaligiran, nag-aalok ito ng premium na masahe, therapeutic na paggamot, at pribadong lounge na idinisenyo upang tunawin ang stress at ibalik ang katawan at isip.',
+  a_s1: 'Itinatag', a_s2: 'Pribadong silid', a_s3: 'Araw na bukas',
+  a_hist: 'KASAYSAYAN NG KUMPANYA',
+  a_p1: 'Itinatag bilang mahalagang karugtong ng Bella Vista estate, upang ibigay sa mga bisita ang walang kapantay na nakagagaling na haplos.',
+  a_b2: 'PAGLAGO',
+  a_p2: 'Dahil sa mataas na demand sa aming therapeutic na sesyon at kalmadong kapaligiran, ang spa ay naging isang destinasyon na sa sarili nito.',
+  a_b3: 'NGAYON',
+  a_p3: 'Isang nangungunang standalone na wellness center na pinagkakatiwalaan ng mga lokal na residente at turistang naghahanap ng propesyonal na pampahingang terapiya.',
+
+  s_eyebrow: 'Listahan ng serbisyo',
+  s_title: 'Piliin ang iyong <span>karanasan</span>',
+  s_lead: 'Bawat sesyon ay may sapilitang 30 minutong paglilinis at sanitasyon ng iyong silid bago ang susunod na bisita.',
+
+  g_eyebrow: 'Galeriya',
+  g_title: 'Mga silid at <span>paggamot</span>',
+  g1t: 'FAMILY SPA LOUNGE', g2t: 'SUITE PARA SA DALAWA', g3t: 'SOLONG SILID',
+  g4t: 'SWEDISH AT DEEP-TISSUE NA MASAHE', g4s: 'THERAPEUTIC NA PAGGAMOT',
+  g5t: 'RITWAL NG HERBAL NA TSAA', g5s: 'SUITE PARA SA DALAWA',
+  g6t: 'TAHIMIK NA HARDIN',
+
+  v_eyebrow: 'Planuhin ang iyong pagbisita',
+  v_title: 'Oras at <span>patakaran ng bahay</span>',
+  v_open: 'BUKAS ARAW-ARAW',
+  v_open_p: 'Lunes hanggang Linggo. Ang mga sesyon ay tumatagal ng 1 oras o 1.5 oras, may 30 minutong paglilinis pagkatapos ng bawat isa.',
+  v_arr: 'PAGDATING AT PAGKANSELA',
+  v_arr_p: 'Dumating nang 15 minuto nang mas maaga — ang mga huling dumating ay magkakaroon ng pinaikling sesyon. Magkansela o mag-reschedule nang 6+ oras bago ang oras; mawawala ang downpayment kapag huli ang pagkansela.',
+  v_quiet: 'TAHIMIK NA KAPALIGIRAN',
+  v_quiet_p: 'Pinapanatili ang ganap na katahimikan at mababang volume sa loob ng lugar upang mapangalagaan ang payapang ambiance.',
+  v_book: 'Mag-book Na',
+
+  b_eyebrow: 'Online na pag-book ng appointment',
+  b_title: 'I-reserba ang iyong <span>sesyon</span>',
+  w1: '1 · Piliin ang iyong serbisyo',
+  w2: '2 · Pumili ng petsa, bisita at oras',
+  w2_date: 'Petsa ng appointment', w2_guests: 'Bilang ng bisita', w2_time: 'Oras (1:00 PM – 9:00 PM)',
+  w3: '3 · Pumili ng bakanteng silid',
+  w4: '4 · Deklarasyon sa kalusugan',
+  w4_hint: 'Pakisabi sa amin ang anumang kondisyong medikal, pinsala o pagbubuntis.',
+  hv1: 'Pagbubuntis', hv2: 'Kamakailang pinsala / operasyon', hv3: 'Puso / presyon ng dugo', hv4: 'Kondisyon sa balat / allergy', hv5: 'Iba pang kondisyong medikal', hv6: 'Walang idedeklara',
+  w4_notes: 'Mga tala para sa iyong therapist (opsyonal)',
+  ph_notes: 'Mga bahaging iiwasan, gustong diin ng masahe, allergy…',
+  w5: '5 · Iyong detalye at pangalan ng mga bisita',
+  w5_name: 'Buong pangalan', w5_phone: 'Mobile number',
+  w5_guests: 'Pangalan ng mga bisita (isang kahon bawat bisita)',
+  w6: '6 · Suriin ang iyong appointment',
+  w6_hint: 'Susunod, hihilingin sa iyong tanggapin ang Mga Tuntunin at Kundisyon.',
+  back: '← Bumalik',
+  sum_title: '◆ BUOD NG BOOKING', sum_total: 'KABUUAN',
+  sum_hint: 'Magkansela o mag-reschedule nang hindi bababa sa 6 na oras bago ang iyong appointment.',
+  foot_staff: 'Pag-login ng Staff / Admin',
+
+  t_title: 'Mga Tuntunin at Kundisyon',
+  t_hint: 'Pakibasa at tanggapin bago ang huling checkout.',
+  t1b: '1 · PAGDATING AT GRACE PERIOD',
+  t1s: 'Dumating nang hindi bababa sa 15 minuto bago ang iyong oras. Ang mga huling dumating ay magkakaroon ng pinaikling sesyon upang manatiling nasa oras ang mga susunod na booking.',
+  t2b: '2 · PATAKARAN SA PAGKANSELA',
+  t2s: 'Magkansela o mag-reschedule nang hindi bababa sa 6 na oras bago ang appointment. Ang huling pagkansela ay mawawalan ng anumang ibinayad na downpayment.',
+  t3b: '3 · DEKLARASYON SA KALUSUGAN',
+  t3s: 'Ibinunyag mo na ang anumang kondisyong medikal, pinsala o pagbubuntis sa booking na ito.',
+  t4b: '4 · TAHIMIK NA KAPALIGIRAN',
+  t4s: 'Dapat panatilihin ang ganap na katahimikan at mababang volume sa loob ng spa.',
+  t_agree: 'Nabasa ko at sumasang-ayon ako sa Mga Tuntunin at Kundisyon.',
+  t_confirm: 'Kumpirmahin ang Booking', t_back: 'Bumalik',
+  d_title: 'Nakumpirma ang Appointment', d_home: 'Bumalik sa Tahanan'
+};
+
+// Names of services and rooms (the database keeps the English names)
+var SERVICE_NAMES_FIL = { SR: 'Masahe sa Solong Silid', CS: 'Suite para sa Magkapareha', FL: 'Barkada / Family Spa Lounge' };
+var SERVICE_FEATURES_FIL = {
+  SR: ['Pribadong silid para sa isang tao', 'Nakalaang therapist', 'Angkop para sa 1 tao'],
+  CS: ['Libreng herbal na tsaa', 'Pribadong silid para sa dalawa', 'Angkop para sa 2 tao'],
+  FL: ['Angkop hanggang 4 na tao (max 6)', '+₱750 bawat dagdag na tao (ika-5–6)', 'Pribadong lounge experience']
+};
+var ROOM_NAMES_FIL = { SR: 'Solong Silid ', CS: 'Suite para sa Magkapareha ', FL: 'Family Lounge ' };
+var HEALTH_FIL = {
+  'Pregnancy': 'Pagbubuntis',
+  'Recent injury / surgery': 'Kamakailang pinsala / operasyon',
+  'Heart / blood pressure condition': 'Kondisyon sa puso / presyon ng dugo',
+  'Skin condition / allergies': 'Kondisyon sa balat / allergy',
+  'Other medical condition': 'Iba pang kondisyong medikal',
+  'None to declare': 'Walang idedeklara'
+};
+
+function serviceName(service) {
+  return (lang === 'fil') ? SERVICE_NAMES_FIL[service.service_code] : service.service_name;
+}
+function serviceFeatures(service) {
+  var source = (lang === 'fil') ? SERVICE_FEATURES_FIL : SERVICE_FEATURES;
+  return source[service.service_code] || [];
+}
+function roomName(room) {
+  if (lang !== 'fil') return room.room_name;
+  return ROOM_NAMES_FIL[room.room_type] + room.room_code.split('-')[1];
+}
+function healthText(value) {
+  return (lang === 'fil' && HEALTH_FIL[value]) ? HEALTH_FIL[value] : value;
+}
+function stepName(number) {
+  var english = ['Service', 'Date & Time', 'Room', 'Health', 'Details', 'Review'];
+  var filipino = ['Serbisyo', 'Petsa at Oras', 'Silid', 'Kalusugan', 'Detalye', 'Suriin'];
+  return (lang === 'fil' ? filipino : english)[number - 1];
+}
+
+// Put the chosen language on every [data-i18n] element of the page
+function applyStaticText() {
+  document.documentElement.lang = (lang === 'fil') ? 'fil' : 'en';
+
+  var items = document.querySelectorAll('[data-i18n]');
+  for (var i = 0; i < items.length; i++) {
+    var el = items[i];
+    if (el.getAttribute('data-en') === null) el.setAttribute('data-en', el.innerHTML);   // remember the English
+    var key = el.getAttribute('data-i18n');
+    el.innerHTML = (lang === 'fil' && FIL[key] !== undefined) ? FIL[key] : el.getAttribute('data-en');
+  }
+
+  var holders = document.querySelectorAll('[data-i18n-ph]');
+  for (var p = 0; p < holders.length; p++) {
+    var box = holders[p];
+    if (box.getAttribute('data-en-ph') === null) box.setAttribute('data-en-ph', box.placeholder);
+    var phKey = box.getAttribute('data-i18n-ph');
+    box.placeholder = (lang === 'fil' && FIL[phKey] !== undefined) ? FIL[phKey] : box.getAttribute('data-en-ph');
+  }
+
+  var buttons = document.querySelectorAll('#langSwitch button');
+  for (var b = 0; b < buttons.length; b++) {
+    buttons[b].classList.toggle('on', buttons[b].getAttribute('data-lang') === lang);
+  }
+}
+
+function setLanguage(newLang) {
+  lang = (newLang === 'fil') ? 'fil' : 'en';
+  localStorage.setItem(LANG_KEY, lang);
+  applyStaticText();
+  drawServiceCards();
+  redrawBooking();
+  if (byId('detailModal') && typeof redrawAdmin === 'function') redrawAdmin();
+}
+
+
+/* =====================================================================
+   DATABASE (saved in the browser)
    ===================================================================== */
 
 // table name -> name of its primary key field  (null = the key is made of two fields)
@@ -48,19 +208,6 @@ var PRIMARY_KEYS = {
   payment: 'payment_id',
   cleaning_task: 'cleaning_id'
 };
-
-// The relationships of the ERD, written in plain words (shown in the admin Database tab)
-var ERD_LINES = [
-  'CUSTOMER 1 → many APPOINTMENT  (a customer books appointments)',
-  'SERVICE 1 → many APPOINTMENT  (a service is selected for appointments)',
-  'ROOM 1 → many APPOINTMENT  (a room hosts appointments)',
-  'USER 1 → many APPOINTMENT  (a staff user manages appointments: managed_by)',
-  'APPOINTMENT 1 → many APPOINTMENT_GUEST  (an appointment includes guests)',
-  'APPOINTMENT ↔ THERAPIST  many-to-many through APPOINTMENT_THERAPIST',
-  'APPOINTMENT 1 → 0..1 HEALTH_DECLARATION',
-  'APPOINTMENT 1 → many PAYMENT  (and USER 1 → many PAYMENT: recorded_by)',
-  'APPOINTMENT 1 → 0..1 CLEANING_TASK  (and ROOM 1 → many CLEANING_TASK)'
-];
 
 var db = null;      // the whole database lives in this variable
 
@@ -243,11 +390,12 @@ function getNowMinutes() {
   return now.getHours() * 60 + now.getMinutes();
 }
 
-// "2026-11-08" -> "Sunday, November 8, 2026"
+// "2026-11-08" -> "Sunday, November 8, 2026"   (or in Filipino)
 function prettyDate(text) {
   var parts = text.split('-');
   var date = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
-  return date.toLocaleDateString('en-PH', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  var locale = (lang === 'fil') ? 'fil-PH' : 'en-PH';
+  return date.toLocaleDateString(locale, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 }
 
 // "2026-11-08" + 810  ->  "2026-11-08T13:30"   (this is what start_at / end_at store)
@@ -267,8 +415,8 @@ function safeText(text) {
 // "1.5 HOURS"
 function durationText(minutes) {
   var hours = minutes / 60;
-  if (hours === 1) return '1 HOUR';
-  return hours + ' HOURS';
+  if (hours === 1) return L('1 HOUR', '1 ORAS');
+  return hours + L(' HOURS', ' ORAS');
 }
 
 // ----- Read data of an appointment (these follow the ERD arrows) -----
@@ -623,9 +771,11 @@ function getActiveServices() {
 
 function describeCapacity(service) {
   if (service.base_capacity === service.max_capacity) {
-    return 'Good for ' + service.max_capacity + (service.max_capacity === 1 ? ' person' : ' persons');
+    return L('Good for ' + service.max_capacity + (service.max_capacity === 1 ? ' person' : ' persons'),
+             'Angkop para sa ' + service.max_capacity + ' tao');
   }
-  return 'Up to ' + service.base_capacity + ' (max ' + service.max_capacity + ') persons';
+  return L('Up to ' + service.base_capacity + ' (max ' + service.max_capacity + ') persons',
+           'Hanggang ' + service.base_capacity + ' (max ' + service.max_capacity + ') na tao');
 }
 
 function drawServiceCards() {
@@ -641,14 +791,14 @@ function drawServiceCards() {
 
     html += '<article class="glass svc">' +
       '<div class="code">' + roomCodes.join(' · ') + '</div>' +
-      '<h3>' + s.service_name + '</h3>' +
+      '<h3>' + serviceName(s) + '</h3>' +
       '<div class="price">' + formatPeso(s.base_price) + ' <small>/ ' + durationText(s.duration_minutes) + '</small></div>' +
       '<ul>';
-    var features = SERVICE_FEATURES[s.service_code] || [];
+    var features = serviceFeatures(s);
     for (var f = 0; f < features.length; f++) {
       html += '<li>' + features[f] + '</li>';
     }
-    html += '</ul><button type="button" class="btn" data-service="' + s.service_code + '">Book this</button></article>';
+    html += '</ul><button type="button" class="btn" data-service="' + s.service_code + '">' + L('Book this', 'I-book ito') + '</button></article>';
   }
   byId('serviceCards').innerHTML = html;
 
@@ -671,7 +821,7 @@ function drawServiceChoices() {
     var s = services[i];
     var selected = (selectedService && selectedService.service_id === s.service_id) ? ' sel' : '';
     html += '<button type="button" class="opt-card' + selected + '" data-service="' + s.service_code + '">' +
-      '<b>' + s.service_name.toUpperCase() + '</b>' +
+      '<b>' + serviceName(s).toUpperCase() + '</b>' +
       '<span>' + describeCapacity(s) + ' · ' + durationText(s.duration_minutes).toLowerCase() + '</span>' +
       '<em>' + formatPeso(s.base_price) + '</em></button>';
   }
@@ -718,7 +868,7 @@ function showStepPanel() {
     }
   }
   byId('stepBack').disabled = (currentStep === 1);
-  byId('stepNext').textContent = (currentStep === 6) ? 'Review Terms & Book' : 'Next →';
+  byId('stepNext').textContent = (currentStep === 6) ? L('Review Terms & Book', 'Suriin ang Tuntunin at Mag-book') : L('Next →', 'Susunod →');
 }
 
 // The little step list at the top (01 Service, 02 Date & Time, ...)
@@ -728,7 +878,7 @@ function drawProgress() {
     var css = '';
     if (i < currentStep) css = 'done';
     if (i === currentStep) css = 'active';
-    html += '<li class="' + css + '" data-step="' + i + '"><span>0' + i + '</span>' + STEP_NAMES[i - 1] + '</li>';
+    html += '<li class="' + css + '" data-step="' + i + '"><span>0' + i + '</span>' + stepName(i) + '</li>';
   }
   byId('progress').innerHTML = html;
 
@@ -757,9 +907,11 @@ function drawGuests() {
   byId('guestPlus').disabled = (guestNumber >= s.max_capacity);
 
   if (minGuests === s.max_capacity) {
-    byId('guestHint').textContent = 'Fixed at ' + s.max_capacity + '.';
+    byId('guestHint').textContent = L('Fixed at ' + s.max_capacity + '.', 'Nakatakda sa ' + s.max_capacity + '.');
   } else {
-    byId('guestHint').textContent = 'Up to ' + s.base_capacity + ' included. Extra: ' + formatPeso(s.extra_person_fee) + ' each (max ' + s.max_capacity + ').';
+    byId('guestHint').textContent = L(
+      'Up to ' + s.base_capacity + ' included. Extra: ' + formatPeso(s.extra_person_fee) + ' each (max ' + s.max_capacity + ').',
+      'Hanggang ' + s.base_capacity + ' kasama. Dagdag: ' + formatPeso(s.extra_person_fee) + ' bawat isa (max ' + s.max_capacity + ').');
   }
 }
 
@@ -771,11 +923,11 @@ function makeSlotButton(slot) {
 
   var smallText = '';
   if (slot.isPast) {
-    smallText = 'PAST';
+    smallText = L('PAST', 'LUMIPAS');
   } else if (slot.freeRoomIds.length === 0) {
-    smallText = 'FULL';
+    smallText = L('FULL', 'PUNO');
   } else {
-    smallText = slot.freeRoomIds.length + ' room(s) free';
+    smallText = L(slot.freeRoomIds.length + ' room(s) free', slot.freeRoomIds.length + ' silid ang bakante');
   }
   button.innerHTML = formatTime(slot.start) + '<small>' + smallText + '</small>';
   button.disabled = slot.isPast || slot.freeRoomIds.length === 0;
@@ -801,10 +953,10 @@ function drawSlots() {
 
   var message = byId('slotMessage');
   if (anyLeft) {
-    message.textContent = 'Please arrive 15 minutes before your time.';
+    message.textContent = L('Please arrive 15 minutes before your time.', 'Pakidating 15 minuto bago ang iyong oras.');
     message.className = 'hint';
   } else {
-    message.textContent = 'No slots left on this date — please choose another day.';
+    message.textContent = L('No slots left on this date — please choose another day.', 'Wala nang bakanteng oras sa petsang ito — pumili ng ibang araw.');
     message.className = 'hint warn';
   }
 }
@@ -819,11 +971,11 @@ function makeRoomCard(room, isFree, hasSlot) {
   button.className = css;
   button.disabled = !isFree;
 
-  var label = 'Available';
-  if (!hasSlot) label = 'Pick a time first';
-  else if (!isFree) label = 'Occupied';
+  var label = L('Available', 'Bakante');
+  if (!hasSlot) label = L('Pick a time first', 'Pumili muna ng oras');
+  else if (!isFree) label = L('Occupied', 'Okupado');
 
-  button.innerHTML = '<b>' + room.room_code + '</b><span>' + room.room_name + '</span><em>' + label + '</em>';
+  button.innerHTML = '<b>' + room.room_code + '</b><span>' + roomName(room) + '</span><em>' + label + '</em>';
   button.onclick = function () {
     selectedRoomId = room.room_id;
     redrawBooking();
@@ -839,9 +991,9 @@ function drawRooms() {
 
   if (hasSlot) {
     byId('roomIntro').textContent = prettyDate(selectedDate) + ' · ' + formatTime(selectedSlot) + ' – ' +
-      formatTime(selectedSlot + selectedService.duration_minutes) + '. Tap an available room.';
+      formatTime(selectedSlot + selectedService.duration_minutes) + '. ' + L('Tap an available room.', 'Pumili ng bakanteng silid.');
   } else {
-    byId('roomIntro').textContent = 'Go back and choose a date and time first.';
+    byId('roomIntro').textContent = L('Go back and choose a date and time first.', 'Bumalik at pumili muna ng petsa at oras.');
   }
 
   var stillSelectedIsFree = false;
@@ -858,7 +1010,7 @@ function makeGuestInput(index) {
   var input = document.createElement('input');
   input.type = 'text';
   input.value = guestNames[index] || '';
-  input.placeholder = 'Guest ' + (index + 1) + ' name';
+  input.placeholder = L('Guest ' + (index + 1) + ' name', 'Pangalan ng bisita ' + (index + 1));
   input.oninput = function () {
     guestNames[index] = input.value;
   };
@@ -891,16 +1043,16 @@ function drawSummary() {
   if (selectedRoomId !== null) roomText = findById('room', selectedRoomId).room_code;
 
   var rows = [
-    ['Service', s.service_name],
-    ['Date', prettyDate(selectedDate)],
-    ['Time', timeText],
-    ['Arrive by', arriveText],
-    ['Room', roomText],
-    ['Guests', guestNumber],
-    ['Base price', formatPeso(s.base_price)]
+    [L('Service', 'Serbisyo'), serviceName(s)],
+    [L('Date', 'Petsa'), prettyDate(selectedDate)],
+    [L('Time', 'Oras'), timeText],
+    [L('Arrive by', 'Dumating bago ang'), arriveText],
+    [L('Room', 'Silid'), roomText],
+    [L('Guests', 'Bisita'), guestNumber],
+    [L('Base price', 'Pangunahing presyo'), formatPeso(s.base_price)]
   ];
   if (s.extra_person_fee > 0) {
-    rows.push(['Extra guests (' + extraGuests + ' × ' + formatPeso(s.extra_person_fee) + ')', formatPeso(extraGuests * s.extra_person_fee)]);
+    rows.push([L('Extra guests (', 'Dagdag na bisita (') + extraGuests + ' × ' + formatPeso(s.extra_person_fee) + ')', formatPeso(extraGuests * s.extra_person_fee)]);
   }
 
   var html = '';
@@ -934,18 +1086,21 @@ function drawReview() {
   var roomText = '—';
   if (selectedRoomId !== null) {
     var room = findById('room', selectedRoomId);
-    roomText = room.room_code + ' (' + room.room_name + ')';
+    roomText = room.room_code + ' (' + roomName(room) + ')';
   }
   var timeText = '—';
   if (selectedSlot !== null) timeText = formatTime(selectedSlot) + ' – ' + formatTime(selectedSlot + s.duration_minutes);
 
+  // health items are shown in the chosen language (the database keeps the English words)
+  var healthShown = getTickedHealthItems().map(healthText);
+
   var rows = [
-    ['Customer', safeText(byId('name').value.trim()) + ' · ' + safeText(byId('phone').value.trim()) + ' · ' + safeText(byId('email').value.trim())],
-    ['Service', s.service_name],
-    ['Date & time', prettyDate(selectedDate) + ', ' + timeText],
-    ['Room', roomText],
-    ['Guests', safeText(getCleanGuestNames().join(', '))],
-    ['Health declaration', safeText(getTickedHealthItems().join(', '))]
+    [L('Customer', 'Kliyente'), safeText(byId('name').value.trim()) + ' · ' + safeText(byId('phone').value.trim()) + ' · ' + safeText(byId('email').value.trim())],
+    [L('Service', 'Serbisyo'), serviceName(s)],
+    [L('Date & time', 'Petsa at oras'), prettyDate(selectedDate) + ', ' + timeText],
+    [L('Room', 'Silid'), roomText],
+    [L('Guests', 'Bisita'), safeText(getCleanGuestNames().join(', '))],
+    [L('Health declaration', 'Deklarasyon sa kalusugan'), safeText(healthShown.join(', '))]
   ];
   var html = '';
   for (var i = 0; i < rows.length; i++) {
@@ -959,20 +1114,22 @@ function drawReview() {
 // Returns '' if the step is OK, otherwise the error message to show
 function validateStep(step) {
   if (step === 2) {
-    if (selectedDate < getTodayText()) return 'Please choose today or a future date.';
-    if (selectedSlot === null) return 'Please choose a time slot.';
+    if (selectedDate < getTodayText()) return L('Please choose today or a future date.', 'Pumili ng petsa ngayon o sa hinaharap.');
+    if (selectedSlot === null) return L('Please choose a time slot.', 'Pumili ng oras.');
   }
   if (step === 3) {
-    if (selectedRoomId === null) return 'Please select an available room.';
+    if (selectedRoomId === null) return L('Please select an available room.', 'Pumili ng bakanteng silid.');
   }
   if (step === 4) {
-    if (getTickedHealthItems().length === 0) return 'Please complete the health declaration (tick "None to declare" if it does not apply).';
+    if (getTickedHealthItems().length === 0) return L(
+      'Please complete the health declaration (tick "None to declare" if it does not apply).',
+      'Kumpletuhin ang deklarasyon sa kalusugan (lagyan ng tsek ang "Walang idedeklara" kung hindi naaangkop).');
   }
   if (step === 5) {
     var fullName = byId('name').value.trim();
-    if (fullName.length < 2) return 'Please enter your full name.';
-    if (!/^[0-9+()\-\s]{7,}$/.test(byId('phone').value.trim())) return 'Please enter a valid mobile number.';
-    if (!/^\S+@\S+\.\S+$/.test(byId('email').value.trim())) return 'Please enter a valid email.';
+    if (fullName.length < 2) return L('Please enter your full name.', 'Ilagay ang iyong buong pangalan.');
+    if (!/^[0-9+()\-\s]{7,}$/.test(byId('phone').value.trim())) return L('Please enter a valid mobile number.', 'Maglagay ng wastong mobile number.');
+    if (!/^\S+@\S+\.\S+$/.test(byId('email').value.trim())) return L('Please enter a valid email.', 'Maglagay ng wastong email.');
 
     // if guest 1 is empty, use the customer's name
     if (!(guestNames[0] || '').trim()) {
@@ -982,7 +1139,7 @@ function validateStep(step) {
     }
     var names = getCleanGuestNames();
     for (var i = 0; i < names.length; i++) {
-      if (names[i] === '') return 'Please type the name of guest ' + (i + 1) + '.';
+      if (names[i] === '') return L('Please type the name of guest ' + (i + 1) + '.', 'Ilagay ang pangalan ng bisita ' + (i + 1) + '.');
     }
   }
   return '';
@@ -1016,7 +1173,7 @@ function confirmBooking() {
     selectedSlot = null;
     selectedRoomId = null;
     goToStep(2);
-    byId('stepError').textContent = 'Sorry, that room was just taken. Please pick another time.';
+    byId('stepError').textContent = L('Sorry, that room was just taken. Please pick another time.', 'Paumanhin, kakakuha lang ng silid na iyon. Pumili ng ibang oras.');
     return;
   }
 
@@ -1037,13 +1194,13 @@ function confirmBooking() {
   byId('doneRef').textContent = apptCode(appointment);
 
   var rows = [
-    ['Customer', safeText(getCustomer(appointment).full_name)],
-    ['Service', s.service_name],
-    ['Room', getRoom(appointment).room_code],
-    ['Date', prettyDate(selectedDate)],
-    ['Time', formatTime(selectedSlot) + ' – ' + formatTime(selectedSlot + s.duration_minutes)],
-    ['Please arrive by', formatTime(selectedSlot - ARRIVE_EARLY)],
-    ['Total', formatPeso(appointment.total_amount)]
+    [L('Customer', 'Kliyente'), safeText(getCustomer(appointment).full_name)],
+    [L('Service', 'Serbisyo'), serviceName(s)],
+    [L('Room', 'Silid'), getRoom(appointment).room_code],
+    [L('Date', 'Petsa'), prettyDate(selectedDate)],
+    [L('Time', 'Oras'), formatTime(selectedSlot) + ' – ' + formatTime(selectedSlot + s.duration_minutes)],
+    [L('Please arrive by', 'Pakidating bago ang'), formatTime(selectedSlot - ARRIVE_EARLY)],
+    [L('Total', 'Kabuuan'), formatPeso(appointment.total_amount)]
   ];
   var html = '';
   for (var i = 0; i < rows.length; i++) {
@@ -1060,6 +1217,14 @@ function setupCustomerSite() {
   byId('menuBtn').onclick = function () {
     byId('menu').classList.toggle('open');
   };
+
+  // language buttons (EN / FIL)
+  var langButtons = document.querySelectorAll('#langSwitch button');
+  for (var lb = 0; lb < langButtons.length; lb++) {
+    langButtons[lb].onclick = function () {
+      setLanguage(this.getAttribute('data-lang'));
+    };
+  }
 
   // first service = the first one in the SERVICE table
   selectedService = getActiveServices()[0];
@@ -1140,18 +1305,17 @@ function setupCustomerSite() {
 
 
 /* =====================================================================
-   7. ADMIN PAGE
+   7. ADMIN PAGE  (stays in English — it is for the staff)
    ===================================================================== */
 
 var adminDate = getTodayText();       // the day the admin is looking at
-var adminView = 'calendar';           // 'calendar', 'therapists', 'reports' or 'database'
+var adminView = 'calendar';           // 'calendar', 'therapists' or 'reports'
 var openAppointmentId = null;         // appointment shown in the details pop-up
 
 var PAGE_TITLES = {
   calendar: 'Appointment Schedule',
   therapists: 'Therapist Assignment',
-  reports: 'Daily Reports',
-  database: 'Database'
+  reports: 'Daily Reports'
 };
 
 // ---------- Login (uses the USER table) ----------
@@ -1173,9 +1337,6 @@ function checkLogin() {
     var managerOnly = document.querySelectorAll('[data-role="manager"]');
     for (var i = 0; i < managerOnly.length; i++) {
       managerOnly[i].style.display = (user.role === 'manager') ? '' : 'none';
-    }
-    if (user.role !== 'manager' && adminView === 'database') {
-      openTab('calendar', document.querySelector('.tab[data-view="calendar"]'));
     }
     redrawAdmin();
   } else {
@@ -1214,7 +1375,6 @@ function redrawAdmin() {
   if (adminView === 'calendar') drawCalendar();
   else if (adminView === 'therapists') drawTherapists();
   else if (adminView === 'reports') drawReports();
-  else if (adminView === 'database') drawDatabase();
   if (byId('detailModal').classList.contains('open')) drawDetails();
 }
 
@@ -1334,13 +1494,13 @@ function drawDetails() {
   for (var g = 0; g < guests.length; g++) guestNamesList.push(safeText(guests[g].guest_name));
 
   // health text
-  var healthText = 'No declaration';
+  var healthInfo = 'No declaration';
   if (health) {
     var flags = [];
     if (health.is_pregnant) flags.push('pregnant');
     if (health.has_injury) flags.push('injury');
     if (health.has_medical_condition) flags.push('medical condition');
-    healthText = (flags.length > 0 ? '<b class="warn-text">⚠ ' + flags.join(', ') + '</b><br>' : '') + safeText(health.details);
+    healthInfo = (flags.length > 0 ? '<b class="warn-text">⚠ ' + flags.join(', ') + '</b><br>' : '') + safeText(health.details);
   }
 
   var rows = [
@@ -1348,7 +1508,7 @@ function drawDetails() {
     ['Service', service.service_name],
     ['Date & time', prettyDate(apptDate(a)) + '<br>' + formatTime(apptStart(a)) + ' – ' + formatTime(apptEnd(a)) + ' (+30 min cleaning)'],
     ['Guests (' + a.guest_count + ')', guestNamesList.join(', ')],
-    ['Health declaration', healthText],
+    ['Health declaration', healthInfo],
     ['Total / Paid / Balance', formatPeso(a.total_amount) + ' / ' + formatPeso(paid) + ' / ' + formatPeso(balance)],
     ['Status', '<span class="pill ' + status + '">' + status + '</span>'],
     ['Managed by', manager ? safeText(manager.full_name) : 'Nobody yet']
@@ -1397,7 +1557,7 @@ function drawDetails() {
 
 // ---------- Therapist helpers (used in the pop-up AND the Therapists tab) ----------
 
-// the blue chips with an × button
+// the chips with an × button
 function makeTherapistChips(a) {
   var therapists = getTherapistsOf(a);
   if (therapists.length === 0) return '<span class="hint">No therapist assigned. </span>';
@@ -1650,46 +1810,6 @@ function drawReports() {
   byId('reportTable').innerHTML = table;
 }
 
-// ---------- D. DATABASE VIEWER (managers only) ----------
-
-function setupDatabaseViewer() {
-  var options = '';
-  for (var table in PRIMARY_KEYS) {
-    options += '<option value="' + table + '">' + table.toUpperCase() + '</option>';
-  }
-  byId('dbTable').innerHTML = options;
-  byId('dbTable').onchange = drawDatabase;
-
-  var lines = '';
-  for (var i = 0; i < ERD_LINES.length; i++) {
-    lines += '<li>' + ERD_LINES[i] + '</li>';
-  }
-  byId('erdList').innerHTML = lines;
-}
-
-function drawDatabase() {
-  var table = byId('dbTable').value;
-  var rows = db[table];
-  byId('dbInfo').textContent = rows.length + ' row(s) · primary key: ' + (PRIMARY_KEYS[table] || 'appointment_id + therapist_id');
-
-  if (rows.length === 0) {
-    byId('dbRows').innerHTML = '<div class="empty">This table is empty.</div>';
-    return;
-  }
-  var columns = Object.keys(rows[0]);
-  var html = '<table class="tbl small"><thead><tr>';
-  for (var c = 0; c < columns.length; c++) html += '<th>' + columns[c] + '</th>';
-  html += '</tr></thead><tbody>';
-  for (var r = 0; r < rows.length; r++) {
-    html += '<tr>';
-    for (var c2 = 0; c2 < columns.length; c2++) {
-      html += '<td>' + safeText(rows[r][columns[c2]]) + '</td>';
-    }
-    html += '</tr>';
-  }
-  byId('dbRows').innerHTML = html + '</tbody></table>';
-}
-
 // ---------- Tabs, dates and buttons ----------
 
 function changeDay(days) {
@@ -1712,7 +1832,6 @@ function openTab(viewName, tabButton) {
   byId('view-' + viewName).classList.add('on');
 
   byId('pageTitle').textContent = PAGE_TITLES[viewName];
-  byId('dateTools').style.display = (viewName === 'database') ? 'none' : '';
   redrawAdmin();
 }
 
@@ -1749,15 +1868,6 @@ function setupAdminPage() {
     showToast('Sample appointments added');
     redrawAdmin();
   };
-  byId('clearBtn').onclick = function () {
-    if (confirm('Reset the whole database? All appointments and customers will be deleted.')) {
-      localStorage.removeItem(DB_KEY);
-      loadDatabase();
-      showToast('Database reset');
-      redrawAdmin();
-      redrawBooking();
-    }
-  };
   byId('printBtn').onclick = function () { window.print(); };
 
   // pop-up + Therapists tab buttons
@@ -1772,8 +1882,6 @@ function setupAdminPage() {
   byId('detailModal').onclick = function (event) {
     if (event.target === byId('detailModal')) byId('detailModal').classList.remove('open');
   };
-
-  setupDatabaseViewer();
 
   setInterval(function () {
     byId('clock').textContent = new Date().toLocaleString('en-PH', { dateStyle: 'medium', timeStyle: 'short' });
@@ -1792,6 +1900,7 @@ function setupAdminPage() {
 loadDatabase();                                   // 1) open (or create) the database
 setupCustomerSite();                              // 2) connect the customer pages
 setupAdminPage();                                 // 3) connect the admin page
+applyStaticText();                                // 4) put the saved language (EN / FIL) on the page
 window.addEventListener('hashchange', showCorrectPage);
 window.addEventListener('keydown', handleArrowKeys);
 
@@ -1807,4 +1916,4 @@ window.addEventListener('storage', function (event) {
 if (location.hash === '') {
   location.hash = '#home';
 }
-showCorrectPage();                                // 4) show the right page
+showCorrectPage();                                // 5) show the right page
